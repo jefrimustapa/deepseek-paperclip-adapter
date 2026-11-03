@@ -1,0 +1,35 @@
+{
+  "name": "deepseek-paperclip-adapter",
+  "version": "1.0.0",
+  "description": "DeepSeek external adapter plugin for Paperclip with DeepSeek Flash, V4 Pro, and free coding models support",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./server": "./server/index.js",
+    "./ui-parser": "./ui-parser.js"
+  },
+  "paperclip": {
+    "adapterUiParser": "1.0.0"
+  },
+  "keywords": [
+    "paperclip",
+    "paperclip-adapter",
+    "deepseek",
+    "deepseek-flash",
+    "ai-agent"
+  ],
+  "author": "Jefri Mustapa",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jefrimustapa/deepseek-paperclip-adapter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jefrimustapa/deepseek-paperclip-adapter/issues"
+  },
+  "homepage": "https://github.com/jefrimustapa/deepseek-paperclip-adapter#readme",
+  "peerDependencies": {
+    "@paperclipai/adapter-opencode-local": ">=0.3.0"
+  }
+}
