@@ -1,6 +1,6 @@
 {
   "name": "deepseek-paperclip-adapter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DeepSeek external adapter plugin for Paperclip with DeepSeek Flash, V4 Pro, and free coding models support",
   "type": "module",
   "main": "./index.js",

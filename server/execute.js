@@ -1,5 +1,25 @@
 import { execute as opencodeExecute } from "@paperclipai/adapter-opencode-local/server";
 
+async function queryBalanceSummary(apiKey) {
+  try {
+    const res = await fetch("https://api.deepseek.com/user/balance", {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        Accept: "application/json",
+      },
+      signal: AbortSignal.timeout(3000),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const parts = (data.balance_infos || [])
+      .map((b) => `${b.total_balance} ${b.currency}`)
+      .filter(Boolean);
+    return parts.join(" / ") || null;
+  } catch {
+    return null;
+  }
+}
+
 export async function execute(ctx) {
   const config = { ...(ctx.config || {}) };
 
@@ -25,6 +45,19 @@ export async function execute(ctx) {
       opencodeConf.provider.deepseek.options.apiKey = env.DEEPSEEK_API_KEY;
       env.OPENCODE_CONFIG_CONTENT = JSON.stringify(opencodeConf);
     } catch {}
+
+    // Log account balance to execution transcript
+    if (typeof ctx.onLog === "function") {
+      try {
+        const balance = await queryBalanceSummary(env.DEEPSEEK_API_KEY);
+        if (balance) {
+          await ctx.onLog(
+            "stdout",
+            `[deepseek] Account balance at start of run: ${balance}\n`
+          );
+        }
+      } catch {}
+    }
   }
 
   config.env = env;
